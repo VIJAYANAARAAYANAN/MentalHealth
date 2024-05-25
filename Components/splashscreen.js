@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet , Image} from 'react-native';
-import logo from '../assets/Logo.png'
+import logo from '../assets/orangelogo.png'
+import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
+
 const SplashScreen = ({ navigation }) => {
+  <StatusBar style="white" />
+
+  const [fontsLoaded] = useFonts({
+    'Montserrat-Medium': require('../src/fonts/Montserrat-Medium.ttf'),
+    'Montserrat-ExtraBold': require('../src/fonts/Montserrat-ExtraBold.ttf')
+  });
   useEffect(() => {
     const timer = setTimeout(() => {
         navigation.navigate('Login');
-    }, 4000); // 
+    }, 1500); // 
 
     return () => clearTimeout(timer);
   }, [navigation]);
@@ -13,8 +23,8 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
     <View style={styles.main}>
-      <Image source={logo} alt="logo" />
-      <Text style={styles.text}>Minds United</Text>
+    <Ionicons name="shapes-sharp" size={40} color="orange" />
+    <Text style={styles.text}>MusicBox</Text>
     </View> 
     </View>
   );
@@ -23,23 +33,29 @@ const SplashScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#002D62',
+    backgroundColor: '#000133',
     justifyContent: 'center',
     alignItems: 'center',
+    alignContent:"center",
   },
+
   main:{
+    marginLeft:20,
     display:'flex',
+    width:'100%',
     alignContent:'center',
     justifyContent:'center',
     alignItems:'center'
   },
 
   text: {
-    fontSize: 40,
-    fontWeight: 'bold',
+    fontSize: 25,
+    fontFamily:'Montserrat-Medium',
     color:'white',
+    textAlign:'center',
     padding:20,
+    width:'100%',
   },
 });
 
-export default SplashScreen;
+export default SplashScreen

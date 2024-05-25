@@ -1,10 +1,18 @@
 {
   "expo": {
-    "name": "MentalHealth",
-    "slug": "MentalHealth",
+    "name": "MindBox",
+    "slug": "MindBox",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./src/fonts/Montserrat-Black.ttf"]
+        }
+      ]
+    ],
+    "icon": "./assets/leaf.jpg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
