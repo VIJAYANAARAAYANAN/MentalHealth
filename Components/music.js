@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Audio } from 'expo-av';
 import { useFonts } from 'expo-font';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { audioFiles, songs } from '../audiofiles/audiofiles'; 
 import { AntDesign } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Music = ({ route, navigation }) => {
   const { item } = route.params; 
@@ -14,7 +15,8 @@ const Music = ({ route, navigation }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
-  const [outputDevice, setOutputDevice] = useState('Speaker'); 
+  const [outputDevice, setOutputDevice] = useState('Speaker');
+  const [liked, setLiked] = useState(false); // State for liked status
 
   const [fontsLoaded] = useFonts({
     'Montserrat-Medium': require('../src/fonts/Montserrat-Medium.ttf'),
@@ -110,9 +112,9 @@ const Music = ({ route, navigation }) => {
   const playPreviousSong = async () => {
     const keys = Object.keys(audioFiles);
     const currentIndex = keys.indexOf(item.fileKey);
-    const previousIndex = (currentIndex - 1 + keys.length) % keys.length; // Ensure positive index
+    const previousIndex = (currentIndex - 1 + keys.length) % keys.length; 
     const previousSongKey = keys[previousIndex];
-    navigation.setParams({ item: songs.find(song => song.fileKey === previousSongKey) }); // Update item in navigation params
+    navigation.setParams({ item: songs.find(song => song.fileKey === previousSongKey) });
   };
 
   const formatTime = millis => {
@@ -127,71 +129,85 @@ const Music = ({ route, navigation }) => {
     }
   };
 
-  
-
-  
+  const toggleLike = () => {
+    setLiked(!liked); 
+  };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: item.imageUrl }} style={styles.albumCover} />
-      <View style={{ display: 'flex' }}>
-        <Text style={styles.title}>{item.album}</Text>
-        <Text style={styles.artist}>{item.artist}</Text>
+    <LinearGradient colors = {["#040305","#002D62"]} style={{flex:1}}>
+      <View style={styles.container}>
+      <View style={{justifyContent:'flex-start',marginTop:'10%',flexDirection:'row',gap:10,}}>
+        <Text style={{color:'white',textAlign:'left',fontSize:15,fontFamily:"Montserrat-Medium"}}>Playing from Library</Text>
+        <AntDesign name="caretdown" size={20} color="white" />
+        </View>
+        <Image source={{ uri: item.imageUrl }} style={styles.albumCover} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '80%' }}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title}>{item.album}</Text>
+            <Text style={styles.artist}>{item.artist}</Text>
+          </View>
+          <TouchableOpacity onPress={toggleLike}>
+            <FontAwesome name={liked ? "heart" : "heart-o"} size={24} color={liked ? "white" : "white"} />
+          </TouchableOpacity>
+        </View>
+        <Slider
+          style={styles.progressBar}
+          value={position}
+          maximumValue={duration}
+          onSlidingComplete={onSlidingComplete}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="darkgrey"
+          thumbTintColor="orange"
+        />
+        <View style={styles.timerContainer}>
+          <Text style={styles.timerText}>{formatTime(position)}</Text>
+          <Text style={styles.timerText}>{formatTime(duration)}</Text>
+        </View>
+        <View style={styles.controls}>
+          <TouchableOpacity style={styles.songcontrolButton} onPress={playPreviousSong}>
+            <FontAwesome name="step-backward" size={24} color="orange" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.playcontrolButton} onPress={playPauseHandler}>
+            <FontAwesome name={isPlaying ? "pause" : "play"} size={30} color="orange" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.songcontrolButton} onPress={playNextSong}>
+            <FontAwesome name="step-forward" size={24} color="orange" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.outputDeviceContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <MaterialCommunityIcons name="speaker-bluetooth" size={26} color="orange" />
+            <Text style={styles.outputDeviceText}>Speaker</Text>
+          </View>
+          <View style={{ flexDirection: 'row',gap:20, }}>
+            <AntDesign name="sharealt" size={24} color="orange" />
+            <MaterialCommunityIcons name="dots-vertical" size={27} color="orange" />
+          </View>
+        </View>
       </View>
-      <Slider
-        style={styles.progressBar}
-        value={position}
-        maximumValue={duration}
-        onSlidingComplete={onSlidingComplete}
-        minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="darkgrey"
-        thumbTintColor="orange"
-      />
-      <View style={styles.timerContainer}>
-        <Text style={styles.timerText}>{formatTime(position)}</Text>
-        <Text style={styles.timerText}>{formatTime(duration)}</Text>
-      </View>
-      <View style={styles.controls}>
-        <TouchableOpacity style={styles.songcontrolButton} onPress={playPreviousSong}>
-          <FontAwesome name="step-backward" size={24} color="orange" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.playcontrolButton} onPress={playPauseHandler}>
-          <FontAwesome name={isPlaying ? "pause" : "play"} size={30} color="orange" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.songcontrolButton} onPress={playNextSong}>
-          <FontAwesome name="step-forward" size={24} color="orange" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.outputDeviceContainer}>
-      <View style={{display:"flex",flexDirection:'row'}}>
-      <MaterialCommunityIcons name="speaker-bluetooth" size={26} color="orange" />
-        <Text style={styles.outputDeviceText}>Speaker</Text>
-      </View>
-      <View style={{display:'flex',flexDirection:'row',gap:20}}>
-      <AntDesign name="sharealt" size={24} color="orange" />
-      <MaterialCommunityIcons name="dots-vertical" size={27} color="orange" />
-      </View>
-      </View>
-    </View>
+    </LinearGradient>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#000133',
+
   },
   albumCover: {
     width: '80%',
     height: '45%',
-    marginTop: '20%',
+    marginTop: '5%',
     marginVertical: 20,
     borderRadius: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
+    justifyContent:'center',
     color: 'orange',
+    fontWeight:'500',
     fontFamily: 'Montserrat-ExtraBold',
     marginTop: 10,
     textAlign: 'left',
@@ -201,12 +217,11 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     fontFamily: 'Montserrat-Medium',
-    marginBottom: 0,
   },
   progressBar: {
     width: '90%',
     height: '5%',
-    marginTop: 20,
+    marginTop: 10,
   },
   timerContainer: {
     flexDirection: 'row',

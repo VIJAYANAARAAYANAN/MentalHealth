@@ -4,7 +4,8 @@ import logo from '../assets/orangelogo.png'
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-
+import { Feather } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 const SplashScreen = ({ navigation }) => {
   <StatusBar style="white" />
 
@@ -14,32 +15,35 @@ const SplashScreen = ({ navigation }) => {
   });
   useEffect(() => {
     const timer = setTimeout(() => {
-        navigation.navigate('Login');
+        navigation.navigate('Home');
     }, 1500); // 
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
+    <LinearGradient colors = {["#040305","#002D62"]} style={{flex:1}}>
     <View style={styles.container}>
     <View style={styles.main}>
-    <Ionicons name="shapes-sharp" size={40} color="orange" />
+    <Feather name="music" size={44} color="orange" />
     <Text style={styles.text}>MusicBox</Text>
     </View> 
     </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000133',
+
     justifyContent: 'center',
     alignItems: 'center',
     alignContent:"center",
   },
 
   main:{
+    flex:1,
     marginLeft:20,
     display:'flex',
     width:'100%',
@@ -49,9 +53,9 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 25,
+    fontSize: 30,
     fontFamily:'Montserrat-Medium',
-    color:'white',
+    color:'orange',
     textAlign:'center',
     padding:20,
     width:'100%',

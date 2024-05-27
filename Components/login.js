@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image ,TouchableOpacity } from 'react-native';
 import leaf from '../assets/smallleaf.png';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Login = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
@@ -11,7 +12,7 @@ const Login = ({ navigation }) => {
   });
   <StatusBar style="white" />
   return (
-    
+    <LinearGradient colors = {["#040305","#002D62"]} style={{flex:1}}>
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={leaf} style={styles.image} />
@@ -21,16 +22,19 @@ const Login = ({ navigation }) => {
       <Text style={styles.text}>MusicBox</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Register')} >
-          <Text style={styles.buttonText}>Create an Account</Text>
+        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Home')} >
+          <Text style={styles.buttonText}>Enjoy the Music</Text>
         </TouchableOpacity>
+        
+        {/*
         <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={()=> navigation.navigate('Loginreg')}>
-          <Text style={styles.buttonText}>Log In</Text>
+          <Text style={styles.buttonText}>start</Text>
         </TouchableOpacity>
+        */}
       </View>
 
     </View>
-
+  </LinearGradient>
   );
 };
 
@@ -38,8 +42,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    
-    backgroundColor: '#000133',
   },
   imageContainer: {
     overflow: 'hidden',
