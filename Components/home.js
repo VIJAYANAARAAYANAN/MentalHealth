@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, FlatList, Pressable, TouchableOpacity } from 'react-native';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
-import { useSelector, useDispatch } from 'react-redux';
-import { addLikedSong, removeLikedSong } from '../actions';
+
 import { StatusBar } from 'expo-status-bar';
 import songsData from '../Components/data/songs.json';
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,7 +13,7 @@ const Home = ({ navigation }) => {
     'Montserrat-ExtraBold': require('../src/fonts/Montserrat-ExtraBold.ttf')
   });
 
-  const dispatch = useDispatch();
+
 
   const [songs, setSongs] = useState([]);
   useEffect(() => {
@@ -24,8 +23,6 @@ const Home = ({ navigation }) => {
 
   const [likedStatus, setLikedStatus] = useState({});
 
-  const likedSongs = useSelector(state => state.likedSongs.likedSongs) || [];
-
   const renderItem = ({ item }) => (
     <Pressable style={styles.itemContainer} onPress={() => handleMusicPress(item)}>
       <Image source={{ uri: item.imageUrl }} style={styles.image} />
@@ -34,15 +31,7 @@ const Home = ({ navigation }) => {
         <Text style={styles.artist}>{item.artist}</Text>
         <Text style={styles.duration}>{item.duration}</Text>
       </View>
-      <View style={{ marginRight: '5%' }}>
-        <TouchableOpacity onPress={() => handleLikePress(item)}>
-          <AntDesign
-            name={isLiked(item) ? "heart" : "hearto"}
-            size={24}
-            color={isLiked(item) ? "white" : "white"}
-          />
-        </TouchableOpacity>
-      </View>
+    
     </Pressable>
   );
 
@@ -50,23 +39,7 @@ const Home = ({ navigation }) => {
     navigation.navigate('Music', { item });
   };
 
-  const handleLikePress = (item) => {
-    const isAlreadyLiked = isLiked(item);
-    setLikedStatus(prev => ({
-      ...prev,
-      [item.fileKey]: !isAlreadyLiked
-    }));
 
-    if (isAlreadyLiked) {
-      dispatch(removeLikedSong(item.fileKey));
-    } else {
-      dispatch(addLikedSong(item.fileKey));
-    }
-  };
-
-  const isLiked = (item) => {
-    return likedStatus[item.fileKey] || likedSongs.includes(item.fileKey);
-  };
 
   return (
     <LinearGradient colors={["#040305", "#002D62"]} style={{ flex: 1 }}>
@@ -79,15 +52,7 @@ const Home = ({ navigation }) => {
             <AntDesign name="setting" size={24} color="white" style={styles.icon} />
           </View>
         </View>
-        <View style={styles.likesection}>
-          <Pressable style={styles.button}>
-            <AntDesign name="heart" size={20} color="white" />
-            <Text style={styles.buttonText}>Liked Songs</Text>
-          </Pressable>
-          <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Recently Played</Text>
-          </Pressable>
-        </View>
+        
         <View style={{ paddingTop: 10, paddingBottom: 15 }}>
           <Text style={styles.headingText}>Songs, <Text style={{ fontSize: 20, color: 'orange' }}>🎸</Text></Text>
         </View>

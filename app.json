@@ -8,16 +8,13 @@
       [
         "expo-font",
         {
-          "fonts": ["./src/fonts/Montserrat-Black.ttf"]
+          "Montserrat-Black": "./src/fonts/Montserrat-Black.ttf"
         }
       ]
     ],
-    "icon": "./assets/leaf.jpg",
-    "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#002D62"
+      "backgroundColor": "#002D62",
+      "text": "MindBox"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -27,12 +24,21 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/newleaf.png",
+        "backgroundColor": "#002D62"
+      },
+      "package": "com.vijay.MindBox"
     },
+    "scheme": [
+      "mindbox"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "be43d538-6341-417a-b3e9-cb59de4e1c4a"
+      }
     }
   }
 }

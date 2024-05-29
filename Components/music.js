@@ -160,7 +160,7 @@ const Music = ({ route, navigation }) => {
           thumbTintColor="orange"
         />
         <View style={styles.timerContainer}>
-          <Text style={styles.timerText}>{formatTime(position)}</Text>
+        
           <Text style={styles.timerText}>{formatTime(duration)}</Text>
         </View>
         <View style={styles.controls}>
@@ -225,13 +225,14 @@ const styles = StyleSheet.create({
   },
   timerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     width: "80%",
     marginBottom: 10,
   },
   timerText: {
     color: 'white',
     fontFamily: 'Montserrat-Medium',
+    textAlign:'right',
   },
   controls: {
     flexDirection: 'row',

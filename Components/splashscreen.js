@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet , Image} from 'react-native';
-import logo from '../assets/orangelogo.png'
-import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
@@ -44,7 +42,6 @@ const styles = StyleSheet.create({
 
   main:{
     flex:1,
-    marginLeft:20,
     display:'flex',
     width:'100%',
     alignContent:'center',

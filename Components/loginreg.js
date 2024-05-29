@@ -25,7 +25,7 @@ const Loginreg = ({ navigation }) => {
             <View style={{ flexDirection: "row", alignContent:"center",justifyContent:'center',alignItems: 'center',paddingTop:'5%', }}>
             <Text style={{ color: 'white', fontSize: 15 ,  fontFamily: 'Montserrat-Medium',}}>New to MusicBox?</Text>
             <TouchableOpacity onPress={()=>navigation.navigate('Register')} >
-                <Text style={{ color: 'orange', fontSize: 15, marginLeft: 5 , fontFamily: 'Montserrat-Medium',}}>Sign Up</Text>
+                <Text style={{ color: 'orange', width:'100%',fontSize: 15, marginLeft: 5 , fontFamily: 'Montserrat-Medium',}}>Sign Up</Text>
             </TouchableOpacity>
             </View>
           </View>
